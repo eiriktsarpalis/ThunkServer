@@ -4,5 +4,5 @@ NUGET
     FsPickler (1.0.6)
     Thespian.Core (0.1.2-alpha)
       FsPickler (>= 1.0.2)
-    Vagrant (0.2.8)
+    Vagrant (0.2.9)
       FsPickler (>= 1.0.2)

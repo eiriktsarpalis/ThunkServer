@@ -44,7 +44,11 @@
   <ItemGroup>
     <Compile Include="config.fs" />
     <Compile Include="naive.fs" />
+    <Compile Include="naive2.fs" />
+    <Compile Include="thunkserver.fs" />
     <None Include="naive.fsx" />
+    <None Include="api.fsx" />
+    <None Include="samples.fsx" />
     <None Include="paket.references" />
   </ItemGroup>
   <PropertyGroup>

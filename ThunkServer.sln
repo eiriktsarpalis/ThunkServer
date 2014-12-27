@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "paket", "paket", "{8732708F
 		.paket\paket.targets = .paket\paket.targets
 	EndProjectSection
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ThunkServer.Daemon", "ThunkServer.Daemon\ThunkServer.Daemon.fsproj", "{D42E097C-3294-47E4-A325-9D0A8A6E072F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +26,10 @@ Global
 		{FA12BC24-33DC-4C26-8AC6-8A135A65D3FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA12BC24-33DC-4C26-8AC6-8A135A65D3FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA12BC24-33DC-4C26-8AC6-8A135A65D3FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D42E097C-3294-47E4-A325-9D0A8A6E072F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D42E097C-3294-47E4-A325-9D0A8A6E072F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D42E097C-3294-47E4-A325-9D0A8A6E072F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D42E097C-3294-47E4-A325-9D0A8A6E072F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

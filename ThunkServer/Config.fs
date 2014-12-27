@@ -42,17 +42,11 @@ module Actor =
         |> Actor.publish [ Protocols.utcp() ]
         |> Actor.start
 
-
-module internal Receiver =
-
     /// <summary>
-    ///     Publish a Thespian receiver to the default TCP protocol
+    ///     Publish a new Thespian receiver to the default TCP protocol
     /// </summary>
-    /// <param name="name">Receiver name.</param>
-    /// <param name="receiver">Receiver instance.</param>
-    let publish name (receiver : Receiver<'T>) =
-        receiver
-        |> Receiver.rename name
+    let createReceiver<'T> () =
+        Receiver.create<'T> ()
         |> Receiver.publish [ Protocols.utcp() ]
         |> Receiver.start
 
