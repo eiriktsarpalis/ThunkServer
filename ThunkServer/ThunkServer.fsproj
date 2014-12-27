@@ -42,7 +42,7 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="configs.fs" />
+    <Compile Include="config.fs" />
     <Compile Include="naive.fs" />
     <Compile Include="naive2.fs" />
     <Compile Include="thunkserver.fs" />

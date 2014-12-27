@@ -11,6 +11,8 @@ open Nessos.Thespian.Serialization
 open Nessos.Thespian.Remote
 open Nessos.Thespian.Remote.TcpProtocol
 
+// Basic configuration; initializes Vagrant and Thespian in the current process
+
 module internal Config =
 
     // initializes a unique vagrant instance; ignore all assemblies that depend on current assembly
