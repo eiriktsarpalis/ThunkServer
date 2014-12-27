@@ -43,7 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="config.fs" />
-    <Compile Include="naives.fs" />
+    <Compile Include="naive.fs" />
     <Compile Include="naive2.fs" />
     <Compile Include="thunkserver.fs" />
     <None Include="naive.fsx" />
