@@ -26,10 +26,12 @@ let rec serverLoop (self : Actor<ThunkMessage>) : Async<unit> =
 
             do! reply.Reply result
         | GetAssemblyLoadState(assemblyIds, reply)  ->
+            // query local vagrant object on load state
             let info = Config.vagrant.GetAssemblyLoadInfo assemblyIds
             do! reply.Reply info
 
         | UploadAssemblies(pkgs, reply) ->
+            // load packages using local vagrant object
             let results = Config.vagrant.LoadAssemblyPackages(pkgs)
             do! reply.Reply results
             
