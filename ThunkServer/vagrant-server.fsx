@@ -8,6 +8,11 @@ open ThunkServer
 Daemon.executable <- __SOURCE_DIRECTORY__ + @"/../bin/ThunkServer.Daemon.exe"
 let server = ThunkServer.spawnWindow()
 
+// deploying code from third-party library
+#r "../ThirdPartyLibrary/bin/ThirdPartyLibrary.dll"
+ThunkServer.evaluate server ThirdPartyLibrary.addition
+
+// deploying code from fsi
 ThunkServer.evaluate server (fun () -> 1 + 1)
 ThunkServer.evaluate server (fun () -> printfn "Remote side-effect")
 ThunkServer.evaluate server (fun () -> do failwith "boom")
@@ -19,15 +24,14 @@ for i in 1 .. 100 do
 !cell // MAGIC
 
 //
-// Example : deploying actors remotely
+// Example : deploying actors remotely using fsi
 //
 
 open Nessos.Thespian
-open ThunkServer
 
 // deploy a remote actor using thunk server
 let deployActor name (body : Actor<'T> -> Async<unit>) : ActorRef<'T> =
-    evaluate server (fun () -> let actor = Actor.create name body in actor.Ref)
+    ThunkServer.evaluate server (fun () -> let actor = Actor.Start name body in actor.Ref)
 
 // example : counter implementation
 type Counter =
@@ -45,7 +49,7 @@ let rec body count (self : Actor<Counter>) = async {
 
 let ref = deployActor "counter" (body 0)
 
-ref <-- IncrementBy 1
-ref <-- IncrementBy 2
-ref <-- IncrementBy 3
-ref <!= GetCount
+ref <-- IncrementBy 1 // post
+ref <-- IncrementBy 2 // post
+ref <-- IncrementBy 3 // post
+ref <!= GetCount // post with reply

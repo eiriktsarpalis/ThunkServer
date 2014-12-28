@@ -19,5 +19,9 @@ Naive2.evaluate localServer (fun () -> 1 + 1)
 Daemon.executable <- __SOURCE_DIRECTORY__ + "/../bin/ThunkServer.Daemon.exe"
 let remoteServer = Naive2.spawnWindow ()
 
-// evaluate remotely ; should fail
+// remotely evaluate lambda defined in third party library; should succeed
+#r "../ThirdPartyLibrary/bin/ThirdPartyLibrary.dll"
+Naive2.evaluate remoteServer ThirdPartyLibrary.sideEffect
+
+// remotely evaluate lambda defined in F# interactive; should fail
 Naive2.evaluate remoteServer (fun () -> 1 + 1)
