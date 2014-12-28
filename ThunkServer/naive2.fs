@@ -67,6 +67,11 @@ let rec serverLoop (self : Actor<ThunkMessage>) : Async<unit> =
 /// create a local thunk server instance with given name
 let createServer name = Actor.create name serverLoop |> Actor.ref
 
+/// Spawns a local process running a single thunk server
+let spawnWindow () =
+    Daemon.spawnWindowAsync(fun () -> createServer "ThunkServer")
+    |> Async.RunSynchronously
+
 /// submit a thunk for evaluation to target actor ref
 let evaluate (server : ActorRef<ThunkMessage>) (thunk : unit -> 'T) =
     // traverse and upload dependencies

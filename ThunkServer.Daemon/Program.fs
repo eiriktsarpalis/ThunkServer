@@ -1,15 +1,15 @@
-﻿open ThunkServer.VagrantServer
+﻿open ThunkServer
 
 [<EntryPoint>]
 let main argv = 
-    let receiver =
-        if argv.Length > 0 then
-            Some <| Daemon.fromCommandLineArg argv.[0]
-        else
-            None
-
-    let ref = createServer "ThunkServer"
-    printfn "Initialized thunk server %O." ref
-    receiver |> Option.iter (fun r -> r.Post ref)
-    while true do System.Threading.Thread.Sleep 1000
-    0
+    try
+        let factory, receiver = Daemon.fromCommandLineArg argv.[0]
+        let ref = factory ()
+        printfn "Initialized thunk server:\n%O." ref
+        receiver.Post ref
+        while true do System.Threading.Thread.Sleep 1000
+        0
+    with e ->
+        eprintfn "Error: %O" e
+        let _ = System.Console.ReadKey ()
+        1

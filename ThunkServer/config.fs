@@ -25,12 +25,12 @@ module internal Config =
 
 module Actor =
 
-    // initialize Thespian ; plugs vagrant pickler instance to configuration
-
+    // initialize Thespian
     do
+        TcpListenerPool.RegisterListener(IPEndPoint.any)
+        // Thespian must be set to use the serializer provided by Vagrant for messaging
         let serializer = new FsPicklerMessageSerializer(Config.vagrant.Pickler) :> IMessageSerializer
         Nessos.Thespian.Serialization.defaultSerializer <- serializer
-        TcpListenerPool.RegisterListener(IPEndPoint.any)
 
     /// <summary>
     ///     Publish a Thespian actor to the default TCP protocol
@@ -43,22 +43,3 @@ module Actor =
         |> Actor.rename name
         |> Actor.publish [ Protocols.utcp() ]
         |> Actor.start
-
-    /// <summary>
-    ///     Publish a new Thespian receiver to the default TCP protocol
-    /// </summary>
-    let createReceiver<'T> () =
-        Receiver.create<'T> ()
-        |> Receiver.publish [ Protocols.utcp() ]
-        |> Receiver.start
-
-module XmlPickler =
-    let private xmlPickler = FsPickler.CreateXml(indent = true, typeConverter = Config.vagrant.TypeConverter)
-    
-    let toFile<'T> (path : string) (value : 'T) =
-        use fs = File.OpenWrite path
-        xmlPickler.Serialize(fs, value)
-
-    let fromFile<'T> (path : string) =
-        use fs = File.OpenRead path
-        xmlPickler.Deserialize<'T>(fs)

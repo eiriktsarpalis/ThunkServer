@@ -2,23 +2,25 @@
 #r "Thespian.dll"
 #r "ThunkServer.dll"
 
-open ThunkServer.VagrantServer
+open ThunkServer
 
 // spawns a windowed console application that hosts a single thunk server instance
 Daemon.executable <- __SOURCE_DIRECTORY__ + @"/../bin/ThunkServer.Daemon.exe"
-let server = Daemon.spawnWindow()
+let server = ThunkServer.spawnWindow()
 
-evaluate server (fun () -> 1 + 1)
-evaluate server (fun () -> printfn "Remote side-effect")
-evaluate server (fun () -> do failwith "boom")
+ThunkServer.evaluate server (fun () -> 1 + 1)
+ThunkServer.evaluate server (fun () -> printfn "Remote side-effect")
+ThunkServer.evaluate server (fun () -> do failwith "boom")
 
-// Fsi top-level value bindings
+// Example : Fsi top-level value bindings
 let cell = ref 0
 for i in 1 .. 100 do
-    cell := evaluate server (fun () -> !cell + 1)
+    cell := ThunkServer.evaluate server (fun () -> !cell + 1)
 !cell // MAGIC
 
-// Deploying remote actors
+//
+// Example : deploying actors remotely
+//
 
 open Nessos.Thespian
 open ThunkServer

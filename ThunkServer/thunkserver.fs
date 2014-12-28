@@ -1,4 +1,4 @@
-﻿module ThunkServer.VagrantServer
+﻿module ThunkServer.ThunkServer
 
 //
 //  Correct thunk server implementation that uses Vagrant
@@ -41,6 +41,11 @@ let rec serverLoop (self : Actor<ThunkMessage>) : Async<unit> =
 /// create a local thunk server instance with given name
 let createServer name = Actor.create name serverLoop |> Actor.ref
 
+/// Spawns a local process running a single thunk server
+let spawnWindow () =
+    Daemon.spawnWindowAsync(fun () -> createServer "ThunkServer")
+    |> Async.RunSynchronously
+
 /// submit a thunk for evaluation to target actor ref
 let evaluate (server : ActorRef<ThunkMessage>) (thunk : unit -> 'T) =
     // receiver implementation ; only specifies how to communicate with remote party
@@ -63,32 +68,3 @@ let evaluate (server : ActorRef<ThunkMessage>) (thunk : unit -> 'T) =
     match result with
     | Choice1Of2 o -> o :?> 'T
     | Choice2Of2 e -> raise e
-
-// ThunkServer daemon implementation
-module Daemon =
-
-    open System
-    open System.Diagnostics
-
-    /// gets or sets location of the ThunkServer daemon
-    let mutable executable : string = null
-
-    let toCommandLineArg (receiver : ActorRef<ActorRef<ThunkMessage>>) =
-        let bytes = Config.vagrant.Pickler.Pickle receiver
-        System.Convert.ToBase64String bytes
-
-    let fromCommandLineArg (arg : string) =
-        let bytes = System.Convert.FromBase64String arg
-        Config.vagrant.Pickler.UnPickle<ActorRef<ActorRef<ThunkMessage>>>(bytes)
-
-    /// Spawns a local process running a single thunk server
-    let spawnWindowAsync () = async {
-        if executable = null then invalidOp "Unset 'executable'."
-        use receiver = Actor.createReceiver<ActorRef<ThunkMessage>> ()
-        let! awaiter = receiver.ReceiveEvent |> Async.AwaitEvent |> Async.StartChild
-        let proc = Process.Start(executable, toCommandLineArg receiver.Ref)
-        return! awaiter
-    }
-
-    /// Spawns a local process running a single thunk server
-    let spawnWindow () = spawnWindowAsync() |> Async.RunSynchronously

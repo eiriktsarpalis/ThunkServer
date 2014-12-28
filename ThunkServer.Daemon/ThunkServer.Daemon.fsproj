@@ -5,13 +5,14 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>fa12bc24-33dc-4c26-8ac6-8a135a65d3ff</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>ThunkServer</RootNamespace>
-    <AssemblyName>ThunkServer</AssemblyName>
+    <ProjectGuid>d42e097c-3294-47e4-a325-9d0a8a6e072f</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>ThunkServer.Daemon</RootNamespace>
+    <AssemblyName>ThunkServer.Daemon</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFSharpCoreVersion>4.3.1.0</TargetFSharpCoreVersion>
-    <Name>ThunkServer</Name>
+    <Name>ThunkServer.Daemon</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,7 +22,9 @@
     <OutputPath>..\bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>..\bin\ThunkServer.XML</DocumentationFile>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DocumentationFile>..\bin\ThunkServer.Daemon.XML</DocumentationFile>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,7 +33,9 @@
     <OutputPath>..\bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>..\bin\ThunkServer.XML</DocumentationFile>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DocumentationFile>..\bin\ThunkServer.Daemon.XML</DocumentationFile>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
@@ -42,16 +47,16 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="config.fs" />
-    <Compile Include="daemon.fs" />
-    <Compile Include="naive.fs" />
-    <Compile Include="naive2.fs" />
-    <Compile Include="thunkserver.fs" />
-    <None Include="naive.fsx" />
-    <None Include="naive2.fsx" />
-    <None Include="vagrant-api.fsx" />
-    <None Include="vagrant-server.fsx" />
+    <Compile Include="Program.fs" />
+    <None Include="App.config" />
     <None Include="paket.references" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ThunkServer\ThunkServer.fsproj">
+      <Name>ThunkServer</Name>
+      <Project>{fa12bc24-33dc-4c26-8ac6-8a135a65d3ff}</Project>
+      <Private>True</Private>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
