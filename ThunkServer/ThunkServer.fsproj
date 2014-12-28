@@ -49,8 +49,8 @@
     <Compile Include="thunkserver.fs" />
     <None Include="naive.fsx" />
     <None Include="naive2.fsx" />
+    <None Include="thunkServer.fsx" />
     <None Include="vagrant-api.fsx" />
-    <None Include="vagrant-server.fsx" />
     <None Include="paket.references" />
   </ItemGroup>
   <PropertyGroup>

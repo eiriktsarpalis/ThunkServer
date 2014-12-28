@@ -2,7 +2,6 @@
 #r "Thespian.dll"
 #r "ThunkServer.dll"
 
-open System.IO
 open ThunkServer
 
 // create a local server

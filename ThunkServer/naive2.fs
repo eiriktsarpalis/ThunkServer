@@ -46,7 +46,7 @@ let loadRawAssemblies (assemblies : AssemblyPackage list) =
 
 type ThunkMessage = 
     | RunThunk of (unit -> obj) * IReplyChannel<Choice<obj, exn>>
-    | LoadAssemblies of AssemblyPackage list
+    | LoadAssemblies of AssemblyPackage list * IReplyChannel<unit>
 
 let rec serverLoop (self : Actor<ThunkMessage>) : Async<unit> = 
     async {
@@ -58,8 +58,9 @@ let rec serverLoop (self : Actor<ThunkMessage>) : Async<unit> =
                 with e -> Choice2Of2 e
 
             do! reply.Reply result
-        | LoadAssemblies assemblies ->
+        | LoadAssemblies (assemblies, reply) ->
             loadRawAssemblies assemblies
+            do! reply.Reply ()
             
         return! serverLoop self
     }
@@ -76,7 +77,8 @@ let spawnWindow () =
 let evaluate (server : ActorRef<ThunkMessage>) (thunk : unit -> 'T) =
     // traverse and upload dependencies
     let dependencies = gatherDependencies thunk
-    server <-- LoadAssemblies dependencies
+    server <!= fun replyChannel -> LoadAssemblies(dependencies, replyChannel)
+    // dependency load complete, submit thunk for execution
     let result = server <!= fun replyChannel -> RunThunk ((fun () -> thunk () :> obj), replyChannel)
     match result with
     | Choice1Of2 o -> o :?> 'T
