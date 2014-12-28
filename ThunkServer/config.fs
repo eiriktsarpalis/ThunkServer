@@ -37,7 +37,7 @@ module Actor =
     /// </summary>
     /// <param name="name">Actor name.</param>
     /// <param name="body">Actor body.</param>
-    let create name (body : Actor<'T> -> Async<unit>) : Actor<'T> =
+    let Start name (body : Actor<'T> -> Async<unit>) : Actor<'T> =
         body
         |> Actor.bind
         |> Actor.rename name

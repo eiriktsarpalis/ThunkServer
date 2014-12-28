@@ -7,7 +7,7 @@ open Nessos.Vagrant
 // initialize a vagrant instance
 let vagrant = Vagrant.Initialize()
 
-// create an object that depends on FSI's dynamic assembly
+// create an object that depends on the FSI dynamic assembly
 let f = box (fun i -> i + 1)
 vagrant.ComputeObjectDependencies(f, permitCompilation = false) // fail
 let deps = vagrant.ComputeObjectDependencies(f, permitCompilation = true) // success

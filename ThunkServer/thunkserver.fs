@@ -39,7 +39,7 @@ let rec serverLoop (self : Actor<ThunkMessage>) : Async<unit> =
     }
 
 /// create a local thunk server instance with given name
-let createServer name = Actor.create name serverLoop |> Actor.ref
+let createServer name = Actor.Start name serverLoop |> Actor.ref
 
 /// Spawns a local process running a single thunk server
 let spawnWindow () =
