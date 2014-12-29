@@ -52,4 +52,5 @@ let ref = deployActor "counter" (body 0)
 ref <-- IncrementBy 1 // post
 ref <-- IncrementBy 2 // post
 ref <-- IncrementBy 3 // post
+
 ref <!= GetCount // post with reply
